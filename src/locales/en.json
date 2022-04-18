@@ -1,0 +1,23 @@
+{
+  "english": "English",
+  "vietnamese": "Vietnamese",
+  "home":"Home",
+  "profile": "Profile",
+  "login":"Login",
+  "register": "Register",
+  "logout": "Logout",
+  "enter-name": "Enter your name",
+  "enter-email": "Enter your email",
+  "enter-age": "Enter your age",
+  "create-password": "Create password",
+  "confirm-password": "Confirm password",
+  "enter-password": "Enter password",
+  "have-account": "Already have an account?",
+  "not-have-account": "Not have an account?",
+  "register-button-text": "Register now",
+  "login-success": "Login successfully",
+  "register-success": "Register successfully",
+  "logout-success": "Logout successfully",
+  "login-incorrect": "Email or password is incorrect",
+  "change-language": "Change language"
+}

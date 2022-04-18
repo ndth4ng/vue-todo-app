@@ -1,47 +1,60 @@
-import { extend } from "vee-validate";
+// import { getLocalLang } from "@/utils/localLang";
+import { getLocalLang } from "@/utils/localLang";
+import { extend, localize } from "vee-validate";
 
-import { required, confirmed, email } from "vee-validate/dist/rules";
+import {
+  required,
+  confirmed,
+  email,
+  min_value,
+  numeric,
+  max,
+  min,
+} from "vee-validate/dist/rules";
 
-extend("required", {
-  ...required,
-  message: "This field is required",
-});
+extend("required", { ...required });
+extend("min_value", { ...min_value });
+extend("email", { ...email });
+extend("numeric", { ...numeric });
+extend("max", { ...max });
+extend("min", { ...min });
+extend("confirmed", { ...confirmed });
 
-extend("email", {
-  ...email,
-  message: "You should add a valid email address",
-});
-
-extend("min", {
-  validate(value, { length }) {
-    if (value.length >= length) return true;
-    return `Min length is ${length} characters`;
+localize({
+  en: {
+    messages: {
+      required: "This field is required",
+      email: "Not valid email",
+      confirmed: "Password does not match",
+      min_value: (_, { min }) => {
+        return `Min age is ${min}`;
+      },
+      numeric: "Age is not valid",
+      max: (_, { length }) => {
+        return `Max length is ${length} characters`;
+      },
+      min: (_, { length }) => {
+        return `Min length is ${length} characters`;
+      },
+    },
   },
-  params: ["length"],
-});
-
-extend("max", {
-  validate(value, { length }) {
-    if (value.length <= length) return true;
-    return `Max length is ${length} characters`;
+  vi: {
+    messages: {
+      required: "Dòng này là bắt buộc",
+      email: "Định dạng email không hợp lệ",
+      confirmed: "Mật khẩu không giống nhau",
+      min_value: (_, { min }) => {
+        return `Tuổi thấp nhất là ${min}`;
+      },
+      numeric: "Tuổi không hợp lệ",
+      max: (_, { length }) => {
+        return `Độ dài tối đa là ${length} ký tự`;
+      },
+      min: (_, { length }) => {
+        return `Độ dài tối thiểu là ${length} ký tự`;
+      },
+    },
   },
-  params: ["length"],
 });
 
-extend("numberic", (value) => {
-  if (!isNaN(value)) return true;
-  return "Age is not valid";
-});
-
-extend("min-value", {
-  validate(value, { min }) {
-    if (!isNaN(value) && Number(value) >= Number(min)) return true;
-    return `Min age is ${min}`;
-  },
-  params: ["min"],
-});
-
-extend("confirmed", {
-  ...confirmed,
-  message: "Password does not match",
-});
+localize(getLocalLang());

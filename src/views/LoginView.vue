@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="wrapper">
-      <h1>Login</h1>
+      <h1>{{ $t("login") }}</h1>
       <!-- The ValidationObserver offers a handleSubmit function that you can use to protect your form submissions.  -->
       <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(onSubmit)">
@@ -10,7 +10,11 @@
             v-slot="{ errors }"
             class="inputGroup"
           >
-            <input v-model="email" placeholder="Enter your email" type="text" />
+            <input
+              v-model="email"
+              :placeholder="$t('enter-email')"
+              type="text"
+            />
             <span>{{ errors[0] }}</span>
           </ValidationProvider>
 
@@ -22,19 +26,21 @@
           >
             <input
               v-model="password"
-              placeholder="Enter password"
+              :placeholder="$t('enter-password')"
               type="password"
             />
             <span>{{ errors[0] }}</span>
           </ValidationProvider>
 
-          <button :disabled="loading" type="submit">Login</button>
+          <button :disabled="loading" type="submit">{{ $t("login") }}</button>
         </form>
       </ValidationObserver>
       <div>
         <p class="text-white">
-          Not have an account?
-          <router-link :to="'/register'">Register now</router-link>
+          {{ $t("not-have-account") }}
+          <router-link :to="'/register'">{{
+            $t("register-button-text")
+          }}</router-link>
         </p>
       </div>
     </div>
@@ -71,14 +77,14 @@ export default {
       if (isSuccess) {
         this.triggerToast({
           status: "success",
-          message: "Login successfully.",
+          message: this.$t("login-success"),
         });
         this.loading = false;
         this.$router.push({ path: "/" });
       } else {
         this.triggerToast({
           status: "danger",
-          message: "Email or password is not correct.",
+          message: this.$t("login-incorrect"),
         });
         this.loading = false;
       }

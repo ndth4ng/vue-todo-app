@@ -1,0 +1,23 @@
+{
+  "english": "Tiếng Anh",
+  "vietnamese": "Tiếng Việt",
+  "home": "Trang chủ",
+  "profile": "Hồ sơ",
+  "login": "Đăng nhập",
+  "register": "Đăng ký",
+  "logout": "Đăng xuất",
+  "enter-name": "Nhập tên của bạn",
+  "enter-email": "Nhập email của bạn",
+  "enter-age": "Nhập số tuổi của bạn",
+  "create-password": "Tạo mật khẩu",
+  "confirm-password": "Xác nhận mật khẩu",
+  "enter-password": "Nhập mật khẩu",
+  "have-account": "Đã có tài khoản?",
+  "not-have-account": "Chưa có tài khoản?",
+  "register-button-text": "Đăng ký ngay",
+  "login-success": "Đăng nhập thành công",
+  "register-success": "Đăng ký thành công",
+  "logout-success": "Đăng xuất thành công",
+  "login-incorrect": "Email hoặc mật khẩu không chính xác",
+  "change-language": "Thay đổi ngôn ngữ"
+}

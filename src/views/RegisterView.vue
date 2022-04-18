@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="wrapper">
-      <h1>Registration</h1>
+      <h1>{{ $t("register") }}</h1>
       <!-- The ValidationObserver offers a handleSubmit function that you can use to protect your form submissions.  -->
       <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(onSubmit)">
@@ -10,7 +10,7 @@
             v-slot="{ errors }"
             class="inputGroup"
           >
-            <input v-model="name" placeholder="Enter your name" type="text" />
+            <input v-model="name" :placeholder="$t('enter-name')" type="text" />
             <span>{{ errors[0] }}</span>
           </ValidationProvider>
 
@@ -19,17 +19,21 @@
             v-slot="{ errors }"
             class="inputGroup"
           >
-            <input v-model="email" placeholder="Enter your email" type="text" />
+            <input
+              v-model="email"
+              :placeholder="$t('enter-email')"
+              type="text"
+            />
             <span>{{ errors[0] }}</span>
           </ValidationProvider>
 
           <ValidationProvider
-            rules="required|numberic|min-value:8"
+            rules="required|numeric|min_value:8"
             v-slot="{ errors }"
             class="inputGroup"
             name="age"
           >
-            <input v-model="age" placeholder="Enter your age" type="text" />
+            <input v-model="age" :placeholder="$t('enter-age')" type="text" />
             <span>{{ errors[0] }}</span>
           </ValidationProvider>
 
@@ -41,7 +45,7 @@
           >
             <input
               v-model="password"
-              placeholder="Create password"
+              :placeholder="$t('create-password')"
               type="password"
             />
             <span>{{ errors[0] }}</span>
@@ -54,19 +58,21 @@
           >
             <input
               v-model="confirmPassword"
-              placeholder="Confirm password"
+              :placeholder="$t('confirm-password')"
               type="password"
             />
             <span>{{ errors[0] }}</span>
           </ValidationProvider>
 
-          <button :disabled="loading" type="submit">Register Now</button>
+          <button :disabled="loading" type="submit">
+            {{ $t("register-button-text") }}
+          </button>
         </form>
       </ValidationObserver>
       <div>
         <p class="text-white">
-          Already have an account?
-          <router-link :to="'/login'">Login</router-link>
+          {{ $t("have-account") }}
+          <router-link :to="'/login'">{{ $t("login") }}</router-link>
         </p>
       </div>
     </div>
@@ -109,7 +115,7 @@ export default {
       if (isSuccess) {
         this.triggerToast({
           status: "success",
-          message: "Register successfully.",
+          message: this.$t("register-success"),
         });
         this.loading = false;
         this.$router.push({ path: "/" });
