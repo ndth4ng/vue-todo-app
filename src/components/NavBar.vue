@@ -1,25 +1,61 @@
 <template>
-  <nav>
-    <div>
-      <router-link to="/">Home</router-link>
-      <router-link to="/profile">Profile</router-link>
+  <div>
+    <div class="navbar-container">
+      <!-- Navbar -->
+      <nav>
+        <div>
+          <router-link to="/"> {{ $t("home") }}</router-link>
+          <router-link to="/profile"> {{ $t("profile") }}</router-link>
+        </div>
+        <div>
+          <button v-if="lang === 'vi'" @click="changeLanguageTo('en')">
+            {{ $t("english") }}
+          </button>
+          <button v-else @click="changeLanguageTo('vi')">
+            {{ $t("vietnamese") }}
+          </button>
+        </div>
+        <div v-if="!user">
+          <router-link to="/login">{{ $t("login") }}</router-link>
+          <router-link to="/register">{{ $t("register") }}</router-link>
+        </div>
+        <div v-else>
+          <button :disabled="loading" @click="onLogout()">
+            {{ $t("logout") }}
+          </button>
+        </div>
+      </nav>
+      <!-- Sidebar -->
+      <span class="btn-sidebar" @click="showSidebar = true">
+        <i class="fa-solid fa-bars"></i>
+      </span>
+
+      <sizebar
+        :lang="lang"
+        :show="showSidebar"
+        @onClose="showSidebar = false"
+        @onChangeLanguage="changeLanguageTo($event)"
+      ></sizebar>
     </div>
-    <div v-if="!user">
-      <router-link to="/login">Login</router-link>
-      <router-link to="/register">Register</router-link>
-    </div>
-    <div v-if="user">
-      <button :disabled="loading" @click="onLogout()">Logout</button>
-    </div>
-  </nav>
+  </div>
 </template>
 <script>
+import { getLocalLang, setLocalLang } from "@/utils/localLang";
 import { mapActions, mapMutations, mapState } from "vuex";
+import { localize } from "vee-validate";
+import SizeBar from "./SideBar.vue";
+
 export default {
   data() {
     return {
       loading: false,
+      lang: getLocalLang(),
+
+      showSidebar: false,
     };
+  },
+  components: {
+    sizebar: SizeBar,
   },
   computed: {
     ...mapState("auth", ["user"]),
@@ -33,7 +69,7 @@ export default {
       if (response.success) {
         this.triggerToast({
           status: "success",
-          message: "Logout successfully.",
+          message: this.$t("logout-success"),
         });
         this.loading = false;
         this.$router.push({ path: "/login" });
@@ -45,14 +81,30 @@ export default {
         this.loading = false;
       }
     },
+    changeLanguageTo: function (lang) {
+      this.lang = lang;
+      // Local storage
+      setLocalLang(lang);
+      // i18n
+      this.$i18n.locale = lang;
+      // vee-validate locale
+      localize(lang);
+    },
   },
 };
 </script>
 <style scoped>
-nav {
+.navbar-container {
   height: 60px;
-  padding: 0 40px;
   background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+}
+
+nav {
+  width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -87,5 +139,24 @@ button:disabled {
   cursor: default;
   background-color: #1a936f75;
   color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-sidebar {
+  display: none;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+@media only screen and (max-width: 576px) {
+  .navbar-container {
+    padding: 0 20px;
+    justify-content: end;
+  }
+  nav {
+    display: none;
+  }
+  .btn-sidebar {
+    display: block;
+  }
 }
 </style>
